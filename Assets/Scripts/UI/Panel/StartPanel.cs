@@ -25,17 +25,22 @@ public class StartPanel : BasePanel
 
     protected override void InitEvent()
     {
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnPlay").onClick.AddListener(() =>
+        {
+            Game.LoadScene(new MainScene());
+        });
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
         {
             Push(new SettingPanel());
         });
-        //ActivePanel.GetOrAddComponentInChildren<Button>("BtnGame").onClick.AddListener(() =>
-        //{
-        //    Push(new LevelPanel());
-        //});
-        //ActivePanel.GetOrAddComponentInChildren<Button>("BtnPlay").onClick.AddListener(() =>
-        //{
-        //    Game.LoadScene(new MainScene());
-        //});
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnExit").onClick.AddListener(() =>
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
+        });
+        
     }
 }
