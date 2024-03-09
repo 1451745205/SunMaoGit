@@ -234,7 +234,7 @@ MonoBehaviour:
   _offset: 0
   _effectGradient:
     serializedVersion: 2
-    key0: {r: 0.6509804, g: 0.454902, b: 0.35686275, a: 1}
+    key0: {r: 1, g: 0.4901961, b: 0.23529413, a: 1}
     key1: {r: 1, g: 0.7058824, b: 0, a: 1}
     key2: {r: 1, g: 0.7058824, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -829,7 +829,7 @@ MonoBehaviour:
   _offset: 0
   _effectGradient:
     serializedVersion: 2
-    key0: {r: 0.6509804, g: 0.454902, b: 0.35686275, a: 1}
+    key0: {r: 1, g: 0.4901961, b: 0.23529413, a: 1}
     key1: {r: 1, g: 0.7058824, b: 0, a: 1}
     key2: {r: 1, g: 0.7058824, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -969,7 +969,7 @@ MonoBehaviour:
   _offset: 0
   _effectGradient:
     serializedVersion: 2
-    key0: {r: 0.6509804, g: 0.454902, b: 0.35686275, a: 1}
+    key0: {r: 1, g: 0.4901961, b: 0.23529413, a: 1}
     key1: {r: 1, g: 0.7058824, b: 0, a: 1}
     key2: {r: 1, g: 0.7058824, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}

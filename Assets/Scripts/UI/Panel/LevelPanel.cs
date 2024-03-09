@@ -1,13 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using XFramework;
 using XFramework.Extend;
 
-/// <summary>
-/// 
-/// </summary>
 public class LevelPanel : BasePanel
 {
     /// <summary>
@@ -16,28 +13,26 @@ public class LevelPanel : BasePanel
     static readonly string path = "Prefabs/UI/Panel/LevelPanel";
 
     /// <summary>
-    /// 
+    /// 主面板
     /// </summary>
     public LevelPanel() : base(new UIType(path))
     {
-        
+
     }
 
     protected override void InitEvent()
     {
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnPlay").onClick.AddListener(() =>
+        {
+            Debug.Log("正在游玩中");
+        });
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnExit").onClick.AddListener(() =>
         {
-            Pop();
+            Game.LoadScene(new MainScene());
         });
-    }
-
-    public override void OnStart()
-    {
-        base.OnStart();
-    }
-
-    public override void OnChange(BasePanel newPanel)
-    {
-        LevelPanel panel = newPanel as LevelPanel;
+        //ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
+        //{
+        //    Push(new SettingPanel());
+        //});
     }
 }

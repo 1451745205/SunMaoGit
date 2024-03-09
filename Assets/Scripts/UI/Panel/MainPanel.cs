@@ -22,26 +22,21 @@ public class MainPanel : BasePanel
 
     protected override void InitEvent()
     {
-        ActivePanel.GetOrAddComponentInChildren<Button>("BtnQuit").onClick.AddListener(() =>
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnGoLevel").onClick.AddListener(() =>
+        {
+            Push(new SelectLevelPanel());
+        });
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnAR").onClick.AddListener(() =>
+        {
+            Game.LoadScene(new ARScene());
+        });
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnExit").onClick.AddListener(() =>
         {
             Game.LoadScene(new StartScene());
         });
-        ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
-        {
-            Push(new SettingPanel());
-        });
-        ActivePanel.GetOrAddComponentInChildren<Button>("BtnMsg").onClick.AddListener(() =>
-        {
-            Push(new TaskPanel());
-        });
-        Transform parent = ActivePanel.GetOrAddComponentInChildren<Transform>("skillPanel");
-        for (int i = 0; i < parent.childCount; i++)
-        {
-            int index = i + 1;
-            parent.GetChild(i).GetComponent<Button>().onClick.AddListener(() =>
-            {
-                Push(new WarningPanel($"这是技能{index}"));
-            });
-        }
+        //ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
+        //{
+        //    Push(new SettingPanel());
+        //});
     }
 }
