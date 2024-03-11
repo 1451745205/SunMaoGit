@@ -22,21 +22,21 @@ public class MainPanel : BasePanel
 
     protected override void InitEvent()
     {
-        ActivePanel.GetOrAddComponentInChildren<Button>("BtnGoLevel").onClick.AddListener(() =>
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnZhiZao").onClick.AddListener(() =>
         {
-            Push(new SelectLevelPanel());
+            Game.LoadScene(new SelectLevelScene());
         });
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnAR").onClick.AddListener(() =>
         {
             Game.LoadScene(new ARScene());
         });
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
+        {
+            Push(new SettingPanel());
+        });
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnExit").onClick.AddListener(() =>
         {
             Game.LoadScene(new StartScene());
         });
-        //ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
-        //{
-        //    Push(new SettingPanel());
-        //});
     }
 }

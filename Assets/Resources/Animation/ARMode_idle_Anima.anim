@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ZhiZaoModel_idle_Anima
+  m_Name: ARMode_idle_Anima
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0

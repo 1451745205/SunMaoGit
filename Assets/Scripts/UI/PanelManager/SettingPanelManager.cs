@@ -30,5 +30,4 @@ public class SettingPanelManager : MonoBehaviour
 
         PlayerPrefs.SetFloat(VolumeKey, newVolume);
         PlayerPrefs.Save(); // Á¢¼´±£´æµ½PlayerPrefs
-    }
-}
+    }}

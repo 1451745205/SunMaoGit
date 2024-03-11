@@ -21,12 +21,4 @@ public class UIAnimation : MonoBehaviour
         animator.SetBool("isEnter", isEnter);
         Debug.Log("鼠标退出");
     }
-
-    private void Update()
-    {
-        if (isEnter)
-        {
-            //具体操作
-        }
-    }
 }

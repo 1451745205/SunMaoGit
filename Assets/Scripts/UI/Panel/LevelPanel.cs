@@ -28,7 +28,7 @@ public class LevelPanel : BasePanel
         });
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnExit").onClick.AddListener(() =>
         {
-            Game.LoadScene(new MainScene());
+            Game.LoadScene(new SelectLevelScene());
         });
         //ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
         //{
