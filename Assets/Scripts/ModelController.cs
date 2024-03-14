@@ -15,8 +15,14 @@ public class ModelController : MonoBehaviour
 	{
 		//接受鼠标按下的事件// 
 		axisX = 0f; axisY = 0f;
+
+		//交换模型参数(位置,大小)
+		ExchangePos.Instance.ExModel(this.gameObject);
+
 	}
-	void OnMouseDrag()     //鼠标拖拽时的操作// 
+
+	//鼠标拖拽时的操作
+	void OnMouseDrag()     
 	{
 		onDrag = true;
 		axisX = -Input.GetAxis("Mouse X");
@@ -25,6 +31,7 @@ public class ModelController : MonoBehaviour
 		cXY = Mathf.Sqrt(axisX * axisX + axisY * axisY); //计算鼠标移动的长度//
 		if (cXY == 0f) { cXY = 1f; }
 	}
+
 	//计算阻尼速度
 	float Rigid()
 	{
@@ -49,11 +56,23 @@ public class ModelController : MonoBehaviour
 
 	void Update()
 	{
-		//这个是是按照之前方向一直慢速旋转
-		this.transform.Rotate(new Vector3(axisY, axisX, 0) * Rigid(), Space.World);
+		//判断是否拖拽，是的话开始旋转
+		if (onDrag)
+		{
+			this.transform.Rotate(new Vector3(axisY, axisX, 0) * Rigid(), Space.World);
+		}
+		else
+		{
+			tempSpeed = 0f;
+		}
 
 		//执行隐藏小方块模型的方法
 		CloseModel();
+	}
+
+	void OnMouseUp()
+	{
+		onDrag = false;
 	}
 
 	/// <summary>
@@ -84,4 +103,6 @@ public class ModelController : MonoBehaviour
 			}
 		}
 	}
+
+
 }
