@@ -10,9 +10,6 @@ public class ExchangePos : MonoBehaviour
 
     private static ExchangePos instance;
 
-
-
-
     private void Awake()
     {
         if (instance == null)
@@ -131,17 +128,63 @@ public class ExchangePos : MonoBehaviour
     }
 
     /// <summary>
-    /// 模型匹配
+    /// 播放动画
     /// </summary>
-    public Vector3 targetModelPosition; // Model目标位置
-    public Vector3 targetModelRotation; // Model目标旋转角度
-    public Vector3[] targetPos
+    private void PlayAnimation(bool isVictory)
+    {
+        Animator animator = GetComponent<Animator>();
+        animator.SetBool("isVictory", isVictory); // 根据是否胜利来设置胜利动画参数
+    }
+
+    /// <summary>
+    /// 匹配结果判定
+    /// </summary>
+    public void JudgeResult()
+    {
+
+        bool allTrue = true; // 假设数组中所有元素都为真
+
+        for (int i = 0; i < bigModels.Length; i++)
+        {
+            // 获取 大部件挂载的 ModelController 类的实例
+            ModelController modelController = bigModels[i].GetComponent<ModelController>();
+            GameObject[] models = modelController.smallmodels;
+
+            //如果大部件下有需要判断的模型的话
+            if (models.Length != 0)
+            {
+                for (int j = 0; j < models.Length; j++)
+                {
+                    //如果数组中有假的，则退出循环，判断游戏失败
+                    if (models[j].activeSelf)
+                    {
+                        Debug.Log("匹配失败！");
+                        allTrue = false; // 将标记设置为假
+                        PlayAnimation(false);  //播放失败动画
+                        break; // 退出循环
+                    }
+                }
+                if (allTrue)
+                {
+                    Debug.Log("匹配成功！");
+                    PlayAnimation(true);  //播放成功动画
+                }
+            }
+        }
+    }
 
 
 
+    /// <summary>
+    /// 模型匹配（将模型转换到目标动画位置）
+    /// </summary>
+    public Vector3[] targetPartPosition;
+    public Vector3[] targetPartRotation;
+    public Vector3[] targetPartScale;
 
-    private float moveSpeed = 5f; // 移动速度
+    private float moveSpeed = 0.5f; // 移动速度
     private float rotateSpeed = 180f; // 旋转速度
+    private float scaleSpeed = 2.5f; // 缩放速度
 
     private bool isMoving = false;
 
@@ -149,26 +192,53 @@ public class ExchangePos : MonoBehaviour
     {
         if (!isMoving)
         {
-            StartCoroutine(MoveAndRotateCoroutine());
+            StartCoroutine(TransModels());
         }
     }
+    /// <summary>
+    /// 变换全部模型
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator TransModels()
+    {
+        int minArrayLength = Mathf.Min(bigModels.Length, targetPartPosition.Length, targetPartRotation.Length, targetPartScale.Length);
 
-    private IEnumerator MoveAndRotateCoroutine()
+        for (int i = 0; i < minArrayLength; i++)
+        {
+            yield return TransModel(bigModels[i], targetPartPosition[i], targetPartRotation[i], targetPartScale[i]);
+        }
+    }
+    /// <summary>
+    /// 变换一个模型
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="targetPosition"></param>
+    /// <param name="targetScale"></param>
+    /// <returns></returns>
+    private IEnumerator TransModel(GameObject model, Vector3 targetPosition, Vector3 targetRotation, Vector3 targetScale)
     {
         isMoving = true;
 
-        while ( transform.rotation != Quaternion.Euler(targetModelRotation))
+        float distanceThreshold = 0.001f;  // 移动距离的阈值
+        float angleThreshold = 0.001f;  // 旋转角度的阈值
+
+        while (Vector3.Distance(model.transform.position, targetPosition) > distanceThreshold)
         {
-            // 移动到目标位置
-            transform.position = Vector3.MoveTowards(transform.position, targetModelPosition, moveSpeed * Time.deltaTime);
-
-            // 旋转到目标角度
-            Quaternion targetRotationQuaternion = Quaternion.Euler(targetModelRotation);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotationQuaternion, rotateSpeed * Time.deltaTime);
-
+            model.transform.position = Vector3.MoveTowards(model.transform.position, targetPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }
 
+        while (Quaternion.Angle(model.transform.rotation, Quaternion.Euler(targetRotation)) > angleThreshold)
+        {
+            model.transform.rotation = Quaternion.RotateTowards(model.transform.rotation, Quaternion.Euler(targetRotation), rotateSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        while (Vector3.Distance(model.transform.localScale, targetScale) > distanceThreshold)
+        {
+            model.transform.localScale = Vector3.MoveTowards(model.transform.localScale, targetScale, scaleSpeed * Time.deltaTime);
+            yield return null;
+        }
         isMoving = false;
     }
 }

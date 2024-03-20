@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ModelController : MonoBehaviour
 {
-	//public GameObject[] smallmodels;  //可以被点击的小模型
+	public GameObject[] smallmodels;  //可以被点击的小模型
 
 	private bool onDrag = false;  //是否被拖拽    
 	public float speed = 6f;      //旋转速度    
@@ -71,4 +71,5 @@ public class ModelController : MonoBehaviour
 	{
 		onDrag = false;
 	}
+
 }

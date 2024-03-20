@@ -28,8 +28,12 @@ public class LevelPanel : BasePanel
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnEnter").onClick.AddListener(() =>
         {
             ExchangePos.Instance.MoveAndRotateToTarget();
-            //animation.Play("YourAnimationClipName");
         });
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnResult").onClick.AddListener(() =>
+        {
+            ExchangePos.Instance.JudgeResult();
+        });
+
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnExit").onClick.AddListener(() =>
         {
             Game.LoadScene(new SelectLevelScene());
