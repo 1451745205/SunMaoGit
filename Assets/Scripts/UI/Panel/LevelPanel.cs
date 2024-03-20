@@ -11,7 +11,6 @@ public class LevelPanel : BasePanel
     /// 路径
     /// </summary>
     static readonly string path = "Prefabs/UI/Panel/LevelPanel";
-
     /// <summary>
     /// 主面板
     /// </summary>
@@ -26,13 +25,18 @@ public class LevelPanel : BasePanel
         {
             Debug.Log("正在游玩中");
         });
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnEnter").onClick.AddListener(() =>
+        {
+            ExchangePos.Instance.MoveAndRotateToTarget();
+            //animation.Play("YourAnimationClipName");
+        });
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnExit").onClick.AddListener(() =>
         {
             Game.LoadScene(new SelectLevelScene());
         });
-        //ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
-        //{
-        //    Push(new SettingPanel());
-        //});
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
+        {
+            Push(new SettingPanel());
+        });
     }
 }

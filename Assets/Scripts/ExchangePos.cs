@@ -5,10 +5,13 @@ public class ExchangePos : MonoBehaviour
 {
     public GameObject[] bigModels;  // 榫卯部件模型
     public float duration = 2f; // 缩放持续时间
-    public Vector3 targetScale01 = new Vector3(0.5f, 0.5f, 0.5f); // 目标缩放大小01
-    public Vector3 targetScale02 = Vector3.one; // 目标缩放大小02
+    public Vector3 targetExScale01 = new Vector3(0.5f, 0.5f, 0.5f); // 目标缩放大小01
+    public Vector3 targetExScale02 = Vector3.one; // 目标缩放大小02
 
     private static ExchangePos instance;
+
+
+
 
     private void Awake()
     {
@@ -36,6 +39,13 @@ public class ExchangePos : MonoBehaviour
             }
             return instance;
         }
+    }
+
+    private void Update()
+    {
+
+        //执行模型高亮 及 隐藏小方块模型的方法
+        HightlightAndCloseModel.Instance.HightlightAndClose();
     }
 
     /// <summary>
@@ -88,8 +98,8 @@ public class ExchangePos : MonoBehaviour
             obj1.transform.localPosition = Vector3.Lerp(originalPosObj1, hitPosObj1, currentTime / duration);
             obj2.transform.localPosition = Vector3.Lerp(originalPosObj2, hitPosObj2, currentTime / duration);
 
-            obj1.transform.localScale = Vector3.Lerp(targetScale02, targetScale01, currentTime / duration);
-            obj2.transform.localScale = Vector3.Lerp(targetScale01, targetScale02, currentTime / duration);
+            obj1.transform.localScale = Vector3.Lerp(targetExScale02, targetExScale01, currentTime / duration);
+            obj2.transform.localScale = Vector3.Lerp(targetExScale01, targetExScale02, currentTime / duration);
 
             currentTime += Time.deltaTime;
             yield return null;
@@ -98,8 +108,8 @@ public class ExchangePos : MonoBehaviour
         obj1.transform.localPosition = hitPosObj1;
         obj2.transform.localPosition = hitPosObj2;
 
-        obj1.transform.localScale = targetScale01;
-        obj2.transform.localScale = targetScale02;
+        obj1.transform.localScale = targetExScale01;
+        obj2.transform.localScale = targetExScale02;
     }
 
     /// <summary>
@@ -118,5 +128,47 @@ public class ExchangePos : MonoBehaviour
 
             DisableAllColliders(child.gameObject);
         }
+    }
+
+    /// <summary>
+    /// 模型匹配
+    /// </summary>
+    public Vector3 targetModelPosition; // Model目标位置
+    public Vector3 targetModelRotation; // Model目标旋转角度
+    public Vector3[] targetPos
+
+
+
+
+    private float moveSpeed = 5f; // 移动速度
+    private float rotateSpeed = 180f; // 旋转速度
+
+    private bool isMoving = false;
+
+    public void MoveAndRotateToTarget()
+    {
+        if (!isMoving)
+        {
+            StartCoroutine(MoveAndRotateCoroutine());
+        }
+    }
+
+    private IEnumerator MoveAndRotateCoroutine()
+    {
+        isMoving = true;
+
+        while ( transform.rotation != Quaternion.Euler(targetModelRotation))
+        {
+            // 移动到目标位置
+            transform.position = Vector3.MoveTowards(transform.position, targetModelPosition, moveSpeed * Time.deltaTime);
+
+            // 旋转到目标角度
+            Quaternion targetRotationQuaternion = Quaternion.Euler(targetModelRotation);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotationQuaternion, rotateSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+
+        isMoving = false;
     }
 }
