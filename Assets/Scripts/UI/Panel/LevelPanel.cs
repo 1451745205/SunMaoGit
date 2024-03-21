@@ -33,10 +33,14 @@ public class LevelPanel : BasePanel
         {
             ExchangePos.Instance.JudgeResult();
         });
-
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnExit").onClick.AddListener(() =>
         {
             Game.LoadScene(new SelectLevelScene());
+        });
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnRePlay").onClick.AddListener(() =>
+        {
+            Debug.Log("重新开始");
+            Game.LoadScene(new LevelScene());
         });
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
         {

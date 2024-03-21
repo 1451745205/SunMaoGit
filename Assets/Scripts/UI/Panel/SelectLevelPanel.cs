@@ -45,6 +45,10 @@ public class SelectLevelPanel : BasePanel
             levelName = "03";
             Debug.Log("打开了第三关");
         });
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
+        {
+            Push(new SettingPanel());
+        });
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnExit").onClick.AddListener(() =>
         {
             Game.LoadScene(new MainScene());

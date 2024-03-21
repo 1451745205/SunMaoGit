@@ -1,12 +1,14 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class ExchangePos : MonoBehaviour
 {
-    public GameObject[] bigModels;  // é¾Ã®²¿¼şÄ£ĞÍ
-    public float duration = 2f; // Ëõ·Å³ÖĞøÊ±¼ä
-    public Vector3 targetExScale01 = new Vector3(0.5f, 0.5f, 0.5f); // Ä¿±êËõ·Å´óĞ¡01
-    public Vector3 targetExScale02 = Vector3.one; // Ä¿±êËõ·Å´óĞ¡02
+    public GameObject[] bigModels;  // æ¦«å¯éƒ¨ä»¶æ¨¡å‹
+    public float duration = 2f; // ç¼©æ”¾æŒç»­æ—¶é—´
+    public Vector3 targetExScale01 = new Vector3(0.5f, 0.5f, 0.5f); // ç›®æ ‡ç¼©æ”¾å¤§å°01
+    public Vector3 targetExScale02 = Vector3.one; // ç›®æ ‡ç¼©æ”¾å¤§å°02
 
     private static ExchangePos instance;
 
@@ -41,38 +43,38 @@ public class ExchangePos : MonoBehaviour
     private void Update()
     {
 
-        //Ö´ĞĞÄ£ĞÍ¸ßÁÁ ¼° Òş²ØĞ¡·½¿éÄ£ĞÍµÄ·½·¨
+        //æ‰§è¡Œæ¨¡å‹é«˜äº® åŠ éšè—å°æ–¹å—æ¨¡å‹çš„æ–¹æ³•
         HightlightAndCloseModel.Instance.HightlightAndClose();
     }
 
     /// <summary>
-    /// ½»»»Ä£ĞÍ²ÎÊı
+    /// äº¤æ¢æ¨¡å‹å‚æ•°
     /// </summary>
     /// <param name="gameObject"></param>
     public void ExModel(GameObject gameObject)
     {
         if (gameObject.transform.localPosition.x !=0 || gameObject.transform.localPosition.y != 0)
         {
-            // ¹Ø±Õ×ÓÎïÌåµÄÅö×²Æ÷
+            // å…³é—­å­ç‰©ä½“çš„ç¢°æ’å™¨
             DisableAllColliders(gameObject,false);
             for (int i = 0; i < bigModels.Length; i++)
             {
                 if (bigModels[i].transform.localPosition.x == 0 && bigModels[i].transform.localPosition.y == 0)
                 {
-                    // ½»»»Î»ÖÃºÍ´óĞ¡
+                    // äº¤æ¢ä½ç½®å’Œå¤§å°
                     StartCoroutine(MoveAndScale(bigModels[i], gameObject));
                 }
             }
         }
         else
         {
-            // ¿ªÆô×ÓÎïÌåµÄÅö×²Æ÷
+            // å¼€å¯å­ç‰©ä½“çš„ç¢°æ’å™¨
             DisableAllColliders(gameObject, true);
         }
     }
 
     /// <summary>
-    /// ½»»»Î»ÖÃºÍ´óĞ¡
+    /// äº¤æ¢ä½ç½®å’Œå¤§å°
     /// </summary>
     /// <param name="obj1"></param>
     /// <param name="obj2"></param>
@@ -83,10 +85,10 @@ public class ExchangePos : MonoBehaviour
         Vector3 originalPosObj2 = obj2.transform.localPosition;
 
         Vector3 hitPosObj1 = obj2.transform.localPosition;
-        hitPosObj1.z = originalPosObj1.z; // ±£³Ö obj1 µÄ Z ÖáÖµ²»±ä
+        hitPosObj1.z = originalPosObj1.z; // ä¿æŒ obj1 çš„ Z è½´å€¼ä¸å˜
 
         Vector3 hitPosObj2 = obj1.transform.localPosition;
-        hitPosObj2.z = originalPosObj2.z; // ±£³Ö obj2 µÄ Z ÖáÖµ²»±ä
+        hitPosObj2.z = originalPosObj2.z; // ä¿æŒ obj2 çš„ Z è½´å€¼ä¸å˜
 
         float currentTime = 0f;
 
@@ -110,9 +112,9 @@ public class ExchangePos : MonoBehaviour
     }
 
     /// <summary>
-    /// ÉèÖÃ×ÓÎïÌåµÄÅö×²Æ÷×´Ì¬
+    /// è®¾ç½®å­ç‰©ä½“çš„ç¢°æ’å™¨çŠ¶æ€
     /// </summary>
-    /// <param name="parentTransform">¸¸ÎïÌå</param>
+    /// <param name="parentTransform">çˆ¶ç‰©ä½“</param>
     private void DisableAllColliders(GameObject gameObject,bool isClose = false)
     {
         foreach (Transform child in gameObject.transform)
@@ -128,46 +130,53 @@ public class ExchangePos : MonoBehaviour
     }
 
     /// <summary>
-    /// ²¥·Å¶¯»­
+    /// æ’­æ”¾åŠ¨ç”»
     /// </summary>
-    private void PlayAnimation(bool isVictory)
+    //private void PlayAnimation(int isVictory)
+    //{
+    //    Animator animator = GetComponent<Animator>();
+    //    animator.SetInteger("isVictory", isVictory); // æ ¹æ®æ˜¯å¦èƒœåˆ©æ¥è®¾ç½®èƒœåˆ©åŠ¨ç”»å‚æ•°
+    //}
+    private void PlayAnimation(int clipNumber)
     {
-        Animator animator = GetComponent<Animator>();
-        animator.SetBool("isVictory", isVictory); // ¸ù¾İÊÇ·ñÊ¤ÀûÀ´ÉèÖÃÊ¤Àû¶¯»­²ÎÊı
+        AnimationClip[] animationClips = AnimationUtility.GetAnimationClips(transform.gameObject);
+        Animation animation = GetComponent<Animation>();
+        animation.Play(animationClips[clipNumber].name);
     }
 
+
     /// <summary>
-    /// Æ¥Åä½á¹ûÅĞ¶¨
+    /// åŒ¹é…ç»“æœåˆ¤å®š
     /// </summary>
     public void JudgeResult()
     {
 
-        bool allTrue = true; // ¼ÙÉèÊı×éÖĞËùÓĞÔªËØ¶¼ÎªÕæ
+        bool allTrue = true; // å‡è®¾æ•°ç»„ä¸­æ‰€æœ‰å…ƒç´ éƒ½ä¸ºçœŸ
 
         for (int i = 0; i < bigModels.Length; i++)
         {
-            // »ñÈ¡ ´ó²¿¼ş¹ÒÔØµÄ ModelController ÀàµÄÊµÀı
+            // è·å– å¤§éƒ¨ä»¶æŒ‚è½½çš„ ModelController ç±»çš„å®ä¾‹
             ModelController modelController = bigModels[i].GetComponent<ModelController>();
             GameObject[] models = modelController.smallmodels;
 
-            //Èç¹û´ó²¿¼şÏÂÓĞĞèÒªÅĞ¶ÏµÄÄ£ĞÍµÄ»°
+            //å¦‚æœå¤§éƒ¨ä»¶ä¸‹æœ‰éœ€è¦åˆ¤æ–­çš„æ¨¡å‹çš„è¯
             if (models.Length != 0)
             {
                 for (int j = 0; j < models.Length; j++)
                 {
-                    //Èç¹ûÊı×éÖĞÓĞ¼ÙµÄ£¬ÔòÍË³öÑ­»·£¬ÅĞ¶ÏÓÎÏ·Ê§°Ü
+                    //å¦‚æœæ•°ç»„ä¸­æœ‰å‡çš„ï¼Œåˆ™é€€å‡ºå¾ªç¯ï¼Œåˆ¤æ–­æ¸¸æˆå¤±è´¥
                     if (models[j].activeSelf)
                     {
-                        Debug.Log("Æ¥ÅäÊ§°Ü£¡");
-                        allTrue = false; // ½«±ê¼ÇÉèÖÃÎª¼Ù
-                        PlayAnimation(false);  //²¥·ÅÊ§°Ü¶¯»­
-                        break; // ÍË³öÑ­»·
+                        Debug.Log("åŒ¹é…å¤±è´¥ï¼");
+                        allTrue = false; // å°†æ ‡è®°è®¾ç½®ä¸ºå‡
+                        PlayAnimation(0);  //æ’­æ”¾å¤±è´¥åŠ¨ç”»
+                        break; // é€€å‡ºå¾ªç¯
                     }
                 }
                 if (allTrue)
                 {
-                    Debug.Log("Æ¥Åä³É¹¦£¡");
-                    PlayAnimation(true);  //²¥·Å³É¹¦¶¯»­
+                    Debug.Log("åŒ¹é…æˆåŠŸï¼");
+                    PlayAnimation(1);  //æ’­æ”¾æˆåŠŸåŠ¨ç”»
                 }
             }
         }
@@ -176,15 +185,15 @@ public class ExchangePos : MonoBehaviour
 
 
     /// <summary>
-    /// Ä£ĞÍÆ¥Åä£¨½«Ä£ĞÍ×ª»»µ½Ä¿±ê¶¯»­Î»ÖÃ£©
+    /// æ¨¡å‹åŒ¹é…ï¼ˆå°†æ¨¡å‹è½¬æ¢åˆ°ç›®æ ‡åŠ¨ç”»ä½ç½®ï¼‰
     /// </summary>
     public Vector3[] targetPartPosition;
     public Vector3[] targetPartRotation;
     public Vector3[] targetPartScale;
 
-    private float moveSpeed = 0.5f; // ÒÆ¶¯ËÙ¶È
-    private float rotateSpeed = 180f; // Ğı×ªËÙ¶È
-    private float scaleSpeed = 2.5f; // Ëõ·ÅËÙ¶È
+    private float moveSpeed = 0.5f; // ç§»åŠ¨é€Ÿåº¦
+    private float rotateSpeed = 180f; // æ—‹è½¬é€Ÿåº¦
+    private float scaleSpeed = 2.5f; // ç¼©æ”¾é€Ÿåº¦
 
     private bool isMoving = false;
 
@@ -196,7 +205,7 @@ public class ExchangePos : MonoBehaviour
         }
     }
     /// <summary>
-    /// ±ä»»È«²¿Ä£ĞÍ
+    /// å˜æ¢å…¨éƒ¨æ¨¡å‹
     /// </summary>
     /// <returns></returns>
     private IEnumerator TransModels()
@@ -209,7 +218,7 @@ public class ExchangePos : MonoBehaviour
         }
     }
     /// <summary>
-    /// ±ä»»Ò»¸öÄ£ĞÍ
+    /// å˜æ¢ä¸€ä¸ªæ¨¡å‹
     /// </summary>
     /// <param name="model"></param>
     /// <param name="targetPosition"></param>
@@ -219,8 +228,8 @@ public class ExchangePos : MonoBehaviour
     {
         isMoving = true;
 
-        float distanceThreshold = 0.001f;  // ÒÆ¶¯¾àÀëµÄãĞÖµ
-        float angleThreshold = 0.001f;  // Ğı×ª½Ç¶ÈµÄãĞÖµ
+        float distanceThreshold = 0.001f;  // ç§»åŠ¨è·ç¦»çš„é˜ˆå€¼
+        float angleThreshold = 0.001f;  // æ—‹è½¬è§’åº¦çš„é˜ˆå€¼
 
         while (Vector3.Distance(model.transform.position, targetPosition) > distanceThreshold)
         {
