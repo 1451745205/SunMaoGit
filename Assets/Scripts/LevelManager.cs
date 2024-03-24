@@ -9,14 +9,23 @@ public class LevelManager : MonoBehaviour
     string prefabDirectory = SelectLevelPanel.levelName;
     string prefabNameFormat = "Model0{0}";
     int startIndex = 1;
-    int endIndex = 3; // 或者你想要实例化的预制体数量
+    int endIndex = 3; // 你想要实例化的预制体数量
 
     void Start()
+    {
+        //关卡打开后执行实例化模型的方法
+        InstantiateModel();
+    }
+
+    /// <summary>
+    /// 实例化模型
+    /// </summary>
+    private void InstantiateModel()
     {
         for (int i = startIndex; i <= endIndex; i++)
         {
             // 根据命名规则生成预制体资源的相对路径（去掉 "Assets/Resources/"）
-            string prefabRelativePath = Path.Combine("Models/Levels/", prefabDirectory, string.Format(prefabNameFormat, i) );
+            string prefabRelativePath = Path.Combine("Models/Levels/", prefabDirectory, string.Format(prefabNameFormat, i));
 
             // 使用Resources.Load加载预制体
             GameObject prefab = Resources.Load<GameObject>(prefabRelativePath);

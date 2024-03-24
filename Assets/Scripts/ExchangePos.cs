@@ -10,6 +10,9 @@ public class ExchangePos : MonoBehaviour
     public Vector3 targetExScale01 = new Vector3(0.5f, 0.5f, 0.5f); // 目标缩放大小01
     public Vector3 targetExScale02 = Vector3.one; // 目标缩放大小02
 
+    public int currentLevelIndex = int.Parse(SelectLevelPanel.levelName);  // 当前是第几关
+    private int unlockedLevel = 0;  // 已解锁的关卡数量
+
     private static ExchangePos instance;
 
     private void Awake()
@@ -48,7 +51,7 @@ public class ExchangePos : MonoBehaviour
     }
 
     /// <summary>
-    /// 交换模型参数
+    /// 交换碰撞体状态，交换位置和大小
     /// </summary>
     /// <param name="gameObject"></param>
     public void ExModel(GameObject gameObject)
@@ -124,7 +127,6 @@ public class ExchangePos : MonoBehaviour
             {
                 collider.enabled = isClose;
             }
-
             DisableAllColliders(child.gameObject);
         }
     }
@@ -132,11 +134,6 @@ public class ExchangePos : MonoBehaviour
     /// <summary>
     /// 播放动画
     /// </summary>
-    //private void PlayAnimation(int isVictory)
-    //{
-    //    Animator animator = GetComponent<Animator>();
-    //    animator.SetInteger("isVictory", isVictory); // 根据是否胜利来设置胜利动画参数
-    //}
     private void PlayAnimation(int clipNumber)
     {
         AnimationClip[] animationClips = AnimationUtility.GetAnimationClips(transform.gameObject);
@@ -150,7 +147,6 @@ public class ExchangePos : MonoBehaviour
     /// </summary>
     public void JudgeResult()
     {
-
         bool allTrue = true; // 假设数组中所有元素都为真
 
         for (int i = 0; i < bigModels.Length; i++)
@@ -176,6 +172,10 @@ public class ExchangePos : MonoBehaviour
                 if (allTrue)
                 {
                     Debug.Log("匹配成功！");
+                    if(currentLevelIndex > unlockedLevel )
+                    {
+
+                    }
                     PlayAnimation(1);  //播放成功动画
                 }
             }
