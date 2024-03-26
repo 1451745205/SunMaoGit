@@ -9,7 +9,7 @@ public class ModelController : MonoBehaviour
 	private float tempSpeed;      //阻尼速度 
 	private float axisX = 1;      //鼠标沿水平方向移动的增量   
 	private float axisY = 1;      //鼠标沿竖直方向移动的增量   
-	private float cXY;
+	private float cXY;       //计算鼠标移动的长度
 
 	void OnMouseDown()
 	{
@@ -21,7 +21,9 @@ public class ModelController : MonoBehaviour
 
 	}
 
-	//鼠标拖拽时的操作
+	/// <summary>
+	/// 鼠标拖拽时的操作
+	/// </summary>
 	void OnMouseDrag()     
 	{
 		onDrag = true;
