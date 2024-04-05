@@ -12,13 +12,12 @@ public class UIAnimation : MonoBehaviour
     {
         isEnter = true;
         animator.SetBool("isEnter", isEnter);
-        Debug.Log("鼠标悬停");
-        Debug.Log(isEnter);
+        //Debug.Log("鼠标悬停");
     }
     public void OnMouseExit()
     {
         isEnter = false;
         animator.SetBool("isEnter", isEnter);
-        Debug.Log("鼠标退出");
+        //Debug.Log("鼠标退出");
     }
 }

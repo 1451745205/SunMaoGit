@@ -38,5 +38,6 @@ public class MainPanel : BasePanel
         {
             Game.LoadScene(new StartScene());
         });
+
     }
 }

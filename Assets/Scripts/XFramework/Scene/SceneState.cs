@@ -26,6 +26,7 @@ namespace XFramework
         public SceneState()
         {
             panelManager = new PanelManager();
+
         }
 
         /// <summary>

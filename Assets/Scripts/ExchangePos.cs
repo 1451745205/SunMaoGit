@@ -10,11 +10,16 @@ public class ExchangePos : MonoBehaviour
     public Vector3 targetExScale01 = new Vector3(0.5f, 0.5f, 0.5f); // 目标缩放大小01
     public Vector3 targetExScale02 = Vector3.one; // 目标缩放大小02
 
-    public int currentLevelIndex = int.Parse(SelectLevelPanel.levelName);  // 当前是第几关
-    private int unlockedLevel = 0;  // 已解锁的关卡数量
+    public int currentLevelIndex = 0;  // 当前是第几关
+    private int unlockedLevel = 1;  // 已解锁的关卡数量
 
     private static ExchangePos instance;
 
+    private void Start()
+    {
+        // 初始化当前是第几关
+        currentLevelIndex = int.Parse(SelectLevelPanel.levelName);
+    }
     private void Awake()
     {
         if (instance == null)
@@ -172,9 +177,17 @@ public class ExchangePos : MonoBehaviour
                 if (allTrue)
                 {
                     Debug.Log("匹配成功！");
-                    if(currentLevelIndex > unlockedLevel )
+                    // 判断当前的关卡数是否 大于 已解锁的关卡数
+                    Debug.Log("currentLevelIndex" + currentLevelIndex);
+                    Debug.Log("unlockedLevel"+unlockedLevel);
+                    if (currentLevelIndex >= unlockedLevel )
                     {
-
+                        //更新已解锁的关卡数
+                        unlockedLevel = currentLevelIndex;
+                        // 将已解锁的关卡数存入本地数据
+                        //PlayerPrefs.SetInt("unlocketLevelIndex", unlockedLevel);  
+                        string myUsername = UserManager.myUsername;
+                        LevelProgressManager.instance.SaveLevelProgress(myUsername, unlockedLevel);
                     }
                     PlayAnimation(1);  //播放成功动画
                 }

@@ -98,7 +98,9 @@ namespace XFramework
                     instance.dictAudios[audioName].Play();
             }
             else
+            {
                 instance.dictAudios[audioName].Play();
+            }
         }
 
         /// <summary>

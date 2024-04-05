@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using XFramework;
 using XFramework.Extend;
@@ -21,10 +19,6 @@ public class LevelPanel : BasePanel
 
     protected override void InitEvent()
     {
-        ActivePanel.GetOrAddComponentInChildren<Button>("BtnPlay").onClick.AddListener(() =>
-        {
-            Debug.Log("正在游玩中");
-        });
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnEnter").onClick.AddListener(() =>
         {
             ExchangePos.Instance.MoveAndRotateToTarget();
@@ -45,6 +39,10 @@ public class LevelPanel : BasePanel
         ActivePanel.GetOrAddComponentInChildren<Button>("BtnSetting").onClick.AddListener(() =>
         {
             Push(new SettingPanel());
+        });
+        ActivePanel.GetOrAddComponentInChildren<Button>("BtnTarget").onClick.AddListener(() =>
+        {
+            Push(new TargetPanel());
         });
     }
 }

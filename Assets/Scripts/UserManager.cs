@@ -5,13 +5,14 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
 
-public class LoginClass : MonoBehaviour
+public class UserManager : MonoBehaviour
 {
     //进入前变量
     public InputField username, password, confirmPassword;
     public Text reminderText;
     public int errorsNum;
     public Button loginButton;
+    public Button RegisterButton;
     public GameObject hallSetUI, loginUI;
     //进入后变量
     public static string myUsername;
@@ -48,12 +49,11 @@ public class LoginClass : MonoBehaviour
             if (PlayerPrefs.GetString(username.text + "password") == password.text)
             {
                 reminderText.text = "登录成功";
-
                 myUsername = username.text;
                 hallSetUI.SetActive(true);
-                loginUI.SetActive(false);
+                //loginUI.SetActive(false);
+                Destroy(gameObject);
                 CheckFirstTimeEnterGame(); // 判断此玩家是否是第一次进入游戏
-                //SceneManager.LoadScene(1);
             }
             else
             {

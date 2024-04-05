@@ -20,5 +20,9 @@ public class StartScene : SceneState
     public override void OnEnter()
     {
         panelManager.Push(new StartPanel());
+        if (UserManager.myUsername == null)
+        {
+            panelManager.Push(new LoginPanel());
+        }
     }
 }
